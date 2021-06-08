@@ -1,0 +1,21 @@
+{% extends('base.html.twig') %}
+
+{% block body %}
+    <section class="container my-2 p-3 border border-warning border-3 bg-light max-rounded">
+        <div>
+            {% for message in app.flashes('fail') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="container">
+            {% block content %}Content-PlaceHolder{% endblock %}
+        </div>
+    </section>
+{% endblock %}
