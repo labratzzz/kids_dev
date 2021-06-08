@@ -43,7 +43,7 @@ class Answer
 
     /**
      * @var Question
-     * @ORM\ManyToOne(targetEntity="App\Entity\Question", mappedBy="answers")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="answers")
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $question;

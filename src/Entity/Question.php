@@ -58,13 +58,13 @@ class Question
 
     /**
      * @var Answer[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="")
+     * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="question")
      */
     private $answers;
 
     /**
      * @var Test
-     * @ORM\ManyToOne(targetEntity="App\Entity\Test", mappedBy="questions")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Test", inversedBy="questions")
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $test;
