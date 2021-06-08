@@ -222,8 +222,14 @@
         </div>
     {% endif %}
     <div class="d-flex justify-content-around">
-        <a class="btn btn-lg btn-warning max-rounded px-5 my-2" href="submit">
-            Вход
+        <a class="btn btn-warning d-block max-rounded px-5 my-2" href="{{ path('child.create') }}">
+            Зарегистрировать ребенка
+        </a>
+        <a class="btn btn-warning d-block max-rounded px-5 my-2" href="{{ path('educator.create') }}">
+            Зарегистрировать педагога
+        </a>
+        <a class="btn btn-danger d-block max-rounded px-5 my-2" href="{{ path('app_logout') }}">
+            Выход
         </a>
     </div>
 {% endblock %}
