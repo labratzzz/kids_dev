@@ -19,12 +19,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity()
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"child"="App\Entity\Child", "educator"="App\Entity\Educator"})
+ * @ORM\DiscriminatorMap({"child"="App\Entity\Child", "educator"="App\Entity\EducatorCreateType"})
  * @UniqueEntity(fields={"username"}, message="Пользователь с таким логином уже зарегистрирован.")
  * @ORM\Table(name="users")
  */
 abstract class User implements AdvancedUserInterface
 {
+    const RESET_PASSWORD_VALUE = 'default_password';
+
     const SEX_CHOICES = [
         'Мужчина' => 0,
         'Женщина' => 1

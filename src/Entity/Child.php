@@ -3,6 +3,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,10 +17,26 @@ use Doctrine\ORM\Mapping as ORM;
 class Child extends User
 {
     /**
-     * @var Child
+     * @var ChildAnswer[]|ArrayCollection
      * @ORM\OneToMany(targetEntity="App\Entity\ChildAnswer", mappedBy="child")
      * @ORM\Id()
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $answers;
+
+    /**
+     * @return ChildAnswer[]|ArrayCollection
+     */
+    public function getAnswers()
+    {
+        return $this->answers;
+    }
+
+    /**
+     * @param ChildAnswer[]|ArrayCollection $answers
+     */
+    public function setAnswers($answers)
+    {
+        $this->answers = $answers;
+    }
 }

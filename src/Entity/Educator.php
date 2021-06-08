@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Represents educator.
  *
- * Class Educator
+ * Class EducatorCreateType
  * @package App\Entity
  *
  * @ORM\Entity()
