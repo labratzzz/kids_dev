@@ -1,0 +1,29 @@
+{% extends 'form.html.twig' %}
+
+{% block beforeform %}
+    <h2 class="fw-bold">
+    <img src="{{ asset('img/login.svg') }}" width="80" height="80" class="align-center me-3" alt="">
+        {{ title }}
+    </h2>
+{% endblock %}
+
+{% block form %}
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <label for="inputEmail">Логин</label>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control my-2" required autofocus>
+    <label for="inputPassword">Пароль</label>
+    <input type="password" name="password" id="inputPassword" class="form-control my-2" required>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-lg btn-warning max-rounded px-5 my-2" type="submit">
+            Вход
+        </button>
+    </div>
+</form>
+{% endblock %}
