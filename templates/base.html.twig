@@ -23,7 +23,7 @@
             <nav class="navbar navbar-expand-md navbar-light bg-warning sticky-top max-rounded-bottom">
                 <div class="container">
                     <a class="navbar-brand" href="{{ path('page.home') }}">
-                        <img src="{{ asset('img/logo.svg') }}" width="40" height="40" class="d-inline-block align-center" alt="">
+                        <img style="stroke: black;" src="{{ asset('img/logo.svg') }}" width="40" height="40" class="d-inline-block align-center" alt="">
                         <span class="rainbow-text fw-bolder text-uppercase to-black fst-italic">
                             Узнавайка
                         </span>
@@ -33,6 +33,7 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarResponsive">
                         <ul class="navbar-nav ms-auto">
+                            {% block navbar_links %}
                             <li class="nav-item fw-bold">
                                 <a class="nav-link" href="{{ path('page.home') }}">
                                     <img src="{{ asset('img/house.svg') }}" width="30" height="30" class="d-inline-block me-2 align-center" alt="">
@@ -99,6 +100,7 @@
                                     </a>
                                 </li>
                             {% endif %}
+                            {% endblock %}
                         </ul>
                     </div>
                 </div>

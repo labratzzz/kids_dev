@@ -1,1 +1,229 @@
-{% extends('base.html.twig') %}
+{% extends('content.html.twig') %}
+
+{% block navbar_links %}
+    <li class="nav-item fw-bold">
+        <a class="nav-link" href="{{ path('page.home') }}">
+            <img src="{{ asset('img/house.svg') }}" width="30" height="30" class="d-inline-block me-2 align-center" alt="">
+            <span>
+                Домой
+            </span>
+        </a>
+    </li>
+    <li class="nav-item fw-bold">
+        <a class="nav-link" href="{{ path('page.about') }}">
+            <img src="{{ asset('img/about.svg') }}" width="30" height="30" class="d-inline-block me-2 align-center" alt="">
+            <span>
+                О нас
+            </span>
+        </a>
+    </li>
+    {% if is_granted('ROLE_ADMIN') %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('page.home') }}">
+            Привет, <span class="fw-bold">{{ app.user.username }}</span>
+        </a>
+    </li>
+    <li class="nav-item fw-bold">
+        <a class="nav-link" href="{{ path('app_logout') }}">
+            <img src="{{ asset('img/logout.svg') }}" width="30" height="30" class="d-inline-block me-2 align-center" alt="">
+            <span>
+                Выход
+            </span>
+        </a>
+    </li>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h2 class="fw-bold text-center">
+        Панель администрирования
+    </h2>
+    <h2 class="text-center">
+        Дети
+    </h2>
+    {% if children is defined and children is not empty %}
+        <table class="table table-success table-striped align-middle">
+            <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Имя пользователя</th>
+                <th scope="col">Тип пользователя</th>
+                <th scope="col">Электронная почта</th>
+                <th class="text-end" scope="col">Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for child in children %}
+                <tr>
+                    <th scope="row">
+                        {{ loop.index }}
+                    </th>
+                    <td>
+                        {{ child.name }}
+                    </td>
+                    <td>
+                        {{ constant('App\\Entity\\User::USERTYPE_NAME')[user.type] }}
+                    </td>
+                    <td>
+                        {{ child.email }}
+                    </td>
+                    <td>
+                        <div class="btn-group float-end">
+                            <a href="{{ path('child.reset', {id: child.id}) }}" class="btn btn-secondary">
+                                Сбросить пароль
+                            </a>
+                            <a href="{{ path('child.delete', {id: child.id}) }}" class="btn btn-danger">
+                                Удалить
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    {% if child_page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'cpage':child_page-1})) }}" tabindex="-1">
+                                <
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'cpage':child_page-1})) }}">{{ child_page-1 }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link disabled" tabindex="-1">
+                                <
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item active">
+                        <a class="page-link" href="">{{ child_page }}</a>
+                    </li>
+                    {% if child_page != child_pages %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'cpage':child_page+1})) }}">{{ child_page+1 }}</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'cpage':child_page+1})) }}">
+                                >
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">
+                                >
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center">
+            <div class="bg-warning text-wrap my-3 p-1 max-rounded">
+                В системе не зарегистрировано еще ни одного ребенка.
+            </div>
+        </div>
+    {% endif %}
+
+    <h2 class="text-center">
+        Педагоги
+    </h2>
+    {% if children is defined and children is not empty %}
+        <table class="table table-success table-striped align-middle">
+            <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Имя пользователя</th>
+                <th scope="col">Тип пользователя</th>
+                <th scope="col">Электронная почта</th>
+                <th class="text-end" scope="col">Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for educator in educators %}
+                <tr>
+                    <th scope="row">
+                        {{ loop.index }}
+                    </th>
+                    <td>
+                        {{ educator.name }}
+                    </td>
+                    <td>
+                        {{ constant('App\\Entity\\User::USERTYPE_NAME')[educator.type] }}
+                    </td>
+                    <td>
+                        {{ educator.email }}
+                    </td>
+                    <td>
+                        <div class="btn-group float-end">
+                            <a href="{{ path('educator.reset', {id: educator.id}) }}" class="btn btn-secondary">
+                                Сбросить пароль
+                            </a>
+                            <a href="{{ path('educator.delete', {id: educator.id}) }}" class="btn btn-danger">
+                                Удалить
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    {% if child_page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'epage':educator_page-1})) }}" tabindex="-1">
+                                <
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'epage':educator_page-1})) }}">{{ educator_page-1 }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link disabled" tabindex="-1">
+                                <
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item active">
+                        <a class="page-link" href="">{{ educator_page }}</a>
+                    </li>
+                    {% if child_page != educator_pages %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'epage':educator_page+1})) }}">{{ educator_page+1 }}</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'epage':educator_page+1})) }}">
+                                >
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">
+                                >
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center">
+            <div class="bg-warning text-wrap my-3 p-1 max-rounded">
+                В системе не зарегистрировано еще ни одного педагога.
+            </div>
+        </div>
+    {% endif %}
+    <div class="d-flex justify-content-around">
+        <a class="btn btn-lg btn-warning max-rounded px-5 my-2" href="submit">
+            Вход
+        </a>
+    </div>
+{% endblock %}
