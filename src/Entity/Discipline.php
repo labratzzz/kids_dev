@@ -3,19 +3,20 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Represents user answer on test question.
+ * Represents discipline.
  *
- * Class Answer
+ * Class Discipline
  * @package App\Entity
  *
  * @ORM\Entity()
- * @ORM\Table(name="answers")
+ * @ORM\Table(name="disciplines")
  */
-class Answer
+class Discipline
 {
 
     /**
@@ -29,10 +30,10 @@ class Answer
 
     /**
      * @var string
-     * @ORM\Column(type="string", nullable=true, length=255)
+     * @ORM\Column(type="string", length=255)
      * @Groups({"Main"})
      */
-    private $line;
+    private $name;
 
     /**
      * @var string
@@ -42,11 +43,10 @@ class Answer
     private $image;
 
     /**
-     * @var Question
-     * @ORM\ManyToOne(targetEntity="App\Entity\Question", mappedBy="answers")
-     * @ORM\JoinColumn(onDelete="CASCADE")
+     * @var Test[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="App\Entity\Test", mappedBy="discipline")
      */
-    private $question;
+    private $tests;
 
     /**
      * @return int
@@ -57,19 +57,27 @@ class Answer
     }
 
     /**
-     * @return string
+     * @param int $id
      */
-    public function getLine()
+    public function setId($id)
     {
-        return $this->line;
+        $this->id = $id;
     }
 
     /**
-     * @param string $line
+     * @return string
      */
-    public function setLine($line)
+    public function getName()
     {
-        $this->line = $line;
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     /**
@@ -89,19 +97,19 @@ class Answer
     }
 
     /**
-     * @return Question
+     * @return Test[]|ArrayCollection
      */
-    public function getQuestion()
+    public function getTests()
     {
-        return $this->question;
+        return $this->tests;
     }
 
     /**
-     * @param Question $question
+     * @param Test[]|ArrayCollection $tests
      */
-    public function setQuestion($question)
+    public function setTests($tests)
     {
-        $this->question = $question;
+        $this->tests = $tests;
     }
 
 }

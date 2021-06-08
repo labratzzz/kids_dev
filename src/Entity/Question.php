@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Represents doctor's post (vacation).
+ * Represents test question.
  *
- * Class DoctorType
+ * Class Question
  * @package App\Entity
  *
  * @ORM\Entity()
@@ -18,6 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Question
 {
+
     /**
      * @var int
      * @ORM\Column(type="integer")
@@ -171,4 +172,5 @@ class Question
     {
         $this->test = $test;
     }
+
 }

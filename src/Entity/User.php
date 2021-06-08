@@ -17,10 +17,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @package App\Entity
  *
  * @ORM\Entity()
- * @UniqueEntity(fields={"email"}, message="Профиль пользователя на данную электронную почту уже зарегистрирован.")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({"child"="App\Entyty\Child", "educator"="App\Entyty\Educator"})
+ * @UniqueEntity(fields={"username"}, message="Пользователь с таким логином уже зарегистрирован.")
  * @ORM\Table(name="users")
  */
-class User implements AdvancedUserInterface
+abstract class User implements AdvancedUserInterface
 {
     const SEX_CHOICES = [
         'Мужчина' => 0,
@@ -47,8 +50,7 @@ class User implements AdvancedUserInterface
      * @var string
      * @ORM\Column(type="string")
      * @Groups({"Main"})
-     * @Assert\Email(groups={"Patient", "Doctor"})
-     * @Assert\NotBlank(groups={"Patient", "Doctor"})
+     * @Assert\NotBlank()
      */
     private $username;
 
@@ -56,8 +58,7 @@ class User implements AdvancedUserInterface
      * @var string
      * @ORM\Column(type="string")
      * @Groups({"Main"})
-     * @Assert\Email(groups={"Patient", "Doctor"})
-     * @Assert\NotBlank(groups={"Patient", "Doctor"})
+     * @Assert\Email()
      */
     private $email;
 
@@ -65,9 +66,25 @@ class User implements AdvancedUserInterface
      * @var string
      * @ORM\Column(type="string")
      * @Groups({"Main"})
-     * @Assert\NotBlank(groups={"Patient", "Doctor"})
+     * @Assert\NotBlank()
      */
-    private $name;
+    private $firstname;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     * @Groups({"Main"})
+     * @Assert\NotBlank()
+     */
+    private $lastname;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     * @Groups({"Main"})
+     * @Assert\NotBlank()
+     */
+    private $surname;
 
     /**
      * @var string|null
@@ -105,16 +122,16 @@ class User implements AdvancedUserInterface
      * @var int
      * @ORM\Column(type="integer")
      * @Groups({"Main"})
-     * @Assert\NotBlank(groups={"Patient", "Doctor"})
+     * @Assert\NotBlank()
      */
     private $sex;
-
+    
     /**
      * @var int
      * @ORM\Column(type="string", length=10, nullable=true)
      * @Groups({"Main"})
-     * @Assert\NotBlank(groups={"Patient"})
-     * @Assert\Regex(pattern="/^\d{10}$/", groups={"Patient"})
+     * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/^\d{10}$/")
      */
     private $phone;
 
@@ -190,17 +207,49 @@ class User implements AdvancedUserInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getFirstname()
     {
-        return $this->name;
+        return $this->firstname;
     }
 
     /**
-     * @param string $name
+     * @param string $firstname
      */
-    public function setName($name)
+    public function setFirstname($firstname)
     {
-        $this->name = $name;
+        $this->firstname = $firstname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param string $lastname
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
+     * @param string $surname
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
     }
 
     /**

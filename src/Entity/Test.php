@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Represents doctor's post (vacation).
+ * Represents test.
  *
- * Class DoctorType
+ * Class Test
  * @package App\Entity
  *
  * @ORM\Entity()
@@ -18,6 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Test
 {
+
     /**
      * @var int
      * @ORM\Column(type="integer")
@@ -49,8 +50,15 @@ class Test
     private $image;
 
     /**
+     * @var Discipline
+     * @ORM\ManyToOne(targetEntity="App\Entity\Discipline", inversedBy="tests")
+     * @ORM\JoinColumn(onDelete="CASCADE")
+     */
+    private $discipline;
+
+    /**
      * @var Question[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="")
+     * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="test")
      */
     private $questions;
 
@@ -111,6 +119,22 @@ class Test
     }
 
     /**
+     * @return Discipline
+     */
+    public function getDiscipline()
+    {
+        return $this->discipline;
+    }
+
+    /**
+     * @param Discipline $discipline
+     */
+    public function setDiscipline($discipline)
+    {
+        $this->discipline = $discipline;
+    }
+
+    /**
      * @return Question[]|ArrayCollection
      */
     public function getQuestions()
@@ -125,4 +149,5 @@ class Test
     {
         $this->questions = $questions;
     }
+
 }
