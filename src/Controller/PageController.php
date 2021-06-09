@@ -3,6 +3,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Child;
+use App\Entity\Educator;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,8 +41,22 @@ class PageController extends AbstractController
     {
         $user = $this->getUser();
         if ($user instanceof AdminUser) {
+            $childPage = $request->query->get('cpage', 1);
+            $educatorPage = $request->query->get('epage', 1);
+
+            $childrenQb = $this->getDoctrine()->getRepository(Child::class)->getAllQueryBuilder();
+            $children = $this->paginate($childrenQb->getQuery(), $childPage, $childPages);
+            $educatorsQb = $this->getDoctrine()->getRepository(Educator::class)->getAllQueryBuilder();
+            $educators = $this->paginate($educatorsQb->getQuery(), $educatorPage, $educatorPages);
+
             return $this->render('pages/admin/admin.html.twig', [
-                'pagetitle' => 'Панель администрирования'
+                'pagetitle' => 'Панель администрирования',
+                'children' => $children,
+                'child_page' => $childPage,
+                'child_pages' => $childPages,
+                'educators' => $educators,
+                'educator_page' => $educatorPage,
+                'educator_pages' => $educatorPages
             ]);
         }
 

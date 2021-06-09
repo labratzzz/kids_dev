@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Class Child
  * @package App\Entity
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\ChildRepository")
  */
 class Child extends User
 {

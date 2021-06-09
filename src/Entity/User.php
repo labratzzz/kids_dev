@@ -344,7 +344,11 @@ abstract class User implements AdvancedUserInterface
      */
     public function getShortName()
     {
-        return sprintf('%s %s. %s.', $this->lastname, substr($this->firstname, 0, 1), substr($this->surname, 0, 1));
+        return sprintf(
+            '%s %s. %s.',
+            ucfirst($this->lastname),
+            mb_strtoupper(mb_substr($this->firstname, 0, 1)),
+            mb_strtoupper(mb_substr($this->surname, 0, 1)));
     }
 
     public function __toString()

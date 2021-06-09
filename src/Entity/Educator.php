@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class EducatorCreateType
  * @package App\Entity
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\EducatorRepository")
  */
 class Educator extends User
 {

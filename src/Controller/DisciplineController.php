@@ -4,8 +4,10 @@
 namespace App\Controller;
 
 use App\Entity\Discipline;
+use App\Entity\Educator;
 use App\Form\CreateType\DisciplineCreateType;
 use App\Form\UpdateType\DisciplineUpdateType;
+use App\Util\Helper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,6 +31,11 @@ class DisciplineController extends AbstractController
      */
     public function create(Request $request)
     {
+        $user = $this->getUser();
+        if (!$user instanceof Educator) {
+            $this->addFlash('success', 'У вас нет доступа к этой странице.');
+            return new RedirectResponse($this->generateUrl('page.home'));
+        }
         $discipline = new Discipline();
 
         $form = $this->createForm(DisciplineCreateType::class, $discipline);
@@ -36,13 +43,22 @@ class DisciplineController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($discipline);
-            $em->flush();
+            $files = $request->files->get('discipline_create');
+            $file = Helper::uploadFile(array_shift($files), $this->getParameter('upload_dir'));
+            if ($file)
+            {
+                $discipline->setImage($file);
 
-            $this->addFlash('success', "Предмет успешно создан.");
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($discipline);
+                $em->flush();
 
-            return new RedirectResponse($this->generateUrl('page.home'));
+                $this->addFlash('success', 'Предмет успешно создан.');
+
+                return new RedirectResponse($this->generateUrl('page.home'));
+            } else {
+                $this->addFlash('fail', 'Прикрепление изображения обязательно.');
+            }
         }
 
         return $this->render('forms/discipline/discipline.html.twig', [
@@ -60,6 +76,11 @@ class DisciplineController extends AbstractController
      */
     public function update(Discipline $discipline, Request $request)
     {
+        $user = $this->getUser();
+        if (!$user instanceof Educator) {
+            $this->addFlash('success', 'У вас нет доступа к этой странице.');
+            return new RedirectResponse($this->generateUrl('page.home'));
+        }
         $form = $this->createForm(DisciplineUpdateType::class, $discipline);
 
         $form->handleRequest($request);
@@ -69,6 +90,11 @@ class DisciplineController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $files = $request->files->get('test_update');
+            $file = Helper::uploadFile(array_shift($files), $this->getParameter('upload_dir'));
+            if ($file) {
+                $discipline->setImage($file);
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($discipline);
             $em->flush();
@@ -93,6 +119,10 @@ class DisciplineController extends AbstractController
      */
     public function delete(Discipline $discipline, Request $request)
     {
+        $user = $this->getUser();
+        if (!$user instanceof Educator) {
+            return new RedirectResponse($this->generateUrl('page.home'));
+        }
         $em = $this->getDoctrine()->getManager();
         $em->remove($discipline);
         $em->flush();
