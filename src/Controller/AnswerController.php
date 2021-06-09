@@ -4,8 +4,8 @@
 namespace App\Controller;
 
 use App\Entity\Answer;
-use App\Form\AnswerCreateType;
-use App\Form\AnswerUpdateType;
+use App\Form\CreateType\AnswerCreateType;
+use App\Form\UpdateType\AnswerUpdateType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -4,8 +4,8 @@
 namespace App\Controller;
 
 use App\Entity\Test;
-use App\Form\TestCreateType;
-use App\Form\TestUpdateType;
+use App\Form\CreateType\TestCreateType;
+use App\Form\UpdateType\TestUpdateType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

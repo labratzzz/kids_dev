@@ -1,21 +1,21 @@
 <?php
 
 
-namespace App\Form;
+namespace App\Form\UpdateType;
 
 
-use App\Entity\Question;
+use App\Entity\Test;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class QuestionUpdateType extends AbstractType
+class TestUpdateType extends AbstractType
 {
 
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Question::class
+            'data_class' => Test::class
         ]);
     }
 }

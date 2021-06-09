@@ -1,14 +1,14 @@
 <?php
 
 
-namespace App\Form;
+namespace App\Form\UpdateType;
 
 
 use App\Entity\Question;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class QuestionCreateType extends AbstractType
+class QuestionUpdateType extends AbstractType
 {
 
 

@@ -1,21 +1,21 @@
 <?php
 
 
-namespace App\Form;
+namespace App\Form\CreateType;
 
 
-use App\Entity\Test;
+use App\Entity\Answer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TestCreateType extends AbstractType
+class AnswerCreateType extends AbstractType
 {
 
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Test::class
+            'data_class' => Answer::class
         ]);
     }
 }

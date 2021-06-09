@@ -4,8 +4,8 @@
 namespace App\Controller;
 
 use App\Entity\Discipline;
-use App\Form\DisciplineCreateType;
-use App\Form\DisciplineUpdateType;
+use App\Form\CreateType\DisciplineCreateType;
+use App\Form\UpdateType\DisciplineUpdateType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -1,21 +1,21 @@
 <?php
 
 
-namespace App\Form;
+namespace App\Form\UpdateType;
 
 
-use App\Entity\Test;
+use App\Entity\Discipline;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TestUpdateType extends AbstractType
+class DisciplineUpdateType extends AbstractType
 {
 
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Test::class
+            'data_class' => Discipline::class
         ]);
     }
 }

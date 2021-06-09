@@ -50,6 +50,13 @@ class Test
     private $image;
 
     /**
+     * @var Educator
+     * @ORM\ManyToOne(targetEntity="App\Entity\Educator", inversedBy="tests")
+     * @ORM\JoinColumn(onDelete="CASCADE")
+     */
+    private $creator;
+
+    /**
      * @var Discipline
      * @ORM\ManyToOne(targetEntity="App\Entity\Discipline", inversedBy="tests")
      * @ORM\JoinColumn(onDelete="CASCADE")
@@ -148,6 +155,22 @@ class Test
     public function setQuestions($questions)
     {
         $this->questions = $questions;
+    }
+
+    /**
+     * @return Educator
+     */
+    public function getCreator()
+    {
+        return $this->creator;
+    }
+
+    /**
+     * @param Educator $creator
+     */
+    public function setCreator($creator)
+    {
+        $this->creator = $creator;
     }
 
 }

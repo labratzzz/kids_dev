@@ -1,21 +1,19 @@
 <?php
 
 
-namespace App\Form;
+namespace App\Form\UpdateType;
 
 
-use App\Entity\Discipline;
-use Symfony\Component\Form\AbstractType;
+use App\Entity\Educator;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DisciplineCreateType extends AbstractType
+class EducatorPasswordUpdateType extends UserPasswordUpdateType
 {
-
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Discipline::class
+            'data_class' => Educator::class,
         ]);
     }
 }

@@ -5,6 +5,9 @@ namespace App\Controller;
 
 use App\Entity\Educator;
 use App\Entity\User;
+use App\Form\CreateType\EducatorCreateType;
+use App\Form\UpdateType\EducatorPasswordUpdateType;
+use App\Form\UpdateType\EducatorUpdateType;
 use App\Service\UserManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +23,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  *
  * @Route("/educator", name="educator.")
  */
-class EducatorController
+class EducatorController extends AbstractController
 {
     /**
      * @param UserManager $userManager
@@ -30,148 +33,153 @@ class EducatorController
      */
     public function create(UserManager $userManager, Request $request)
     {
-//        $user = new Child();
-//
-//        $form = $this->createForm(FormType::class, $user);
-//
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $userManager->hashPassword($user);
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($user);
-//            $em->flush();
-//
-//            $this->addFlash('success', "flash_message");
-//
-//            return new RedirectResponse($this->generateUrl('app_login'));
-//        }
-//
-//        return $this->render('forms/user/main.html.twig', [
-//            'form' => $form->createView(),
-//            'image' => 'img/logo.svg',
-//            'title' => 'Регистрация'
-//        ]);
-        return new RedirectResponse($this->generateUrl('page.home'));
+        $educator = new Educator();
+
+        $form = $this->createForm(EducatorCreateType::class, $educator);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $setDefaultPassword = $form->get('defaultPassword')->getData();
+            if ($setDefaultPassword) {
+                $educator->setPlainPassword(User::DEFAULT_PASSWORD);
+            }
+            $userManager->hashPassword($educator);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($educator);
+            $em->flush();
+
+            $username = $educator->getUsername();
+            $this->addFlash('success', "Пользователь $username успешно создан");
+
+            return new RedirectResponse($this->generateUrl('page.home'));
+        }
+
+        return $this->render('forms/educator/educator.html.twig', [
+            'form' => $form->createView(),
+            'image' => 'img/registration.svg',
+            'title' => 'Регистрация педагога'
+        ]);
     }
 
     /**
-     * @param Educator $child
+     * @param Educator $educator
      * @param Request $request
      * @return Response|null
      * @Route("/{id}/update", name="update")
      */
-    public function update(Educator $child, Request $request)
+    public function update(Educator $educator, Request $request)
     {
-//        $form = $this->createForm(FormType::class, $child);
-//
-//        $form->handleRequest($request);
-//
-//        if ($form->get('cancel')->isClicked()) {
-//            return new RedirectResponse($this->generateUrl('page.home'));
-//        }
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($child);
-//            $em->flush();
-//
-//            $this->addFlash('success', 'Данные успешно обновлены.');
-//
-//            return new RedirectResponse($this->generateUrl('page.profile'));
-//        }
-//
-//        return $this->render('forms/user/main.html.twig', [
-//            'form' => $form->createView(),
-//            'image' => 'img/user-edit.svg',
-//            'title' => 'Изменение данных'
-//        ]);
-        return new RedirectResponse($this->generateUrl('page.home'));
+        $form = $this->createForm(EducatorUpdateType::class, $educator);
+
+        $form->handleRequest($request);
+
+        if ($form->get('cancel')->isClicked()) {
+            return new RedirectResponse($this->generateUrl('page.home'));
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($educator);
+            $em->flush();
+
+            $username = $educator->getUsername();
+            $this->addFlash('success', "Данные пользователя $username успешно обновлены.");
+
+            return new RedirectResponse($this->generateUrl('page.profile'));
+        }
+
+        return $this->render('forms/educator/educator.html.twig', [
+            'form' => $form->createView(),
+            'image' => 'img/edit.svg',
+            'title' => 'Обновление данных'
+        ]);
     }
 
     /**
-     * @param Educator $child
+     * @param Educator $educator
      * @param UserManager $userManager
      * @param UserPasswordEncoderInterface $encoder
      * @param Request $request
      * @return Response|null
      * @Route("/{id}/password", name="password")
      */
-    public function updatePassword(Educator $child, UserManager $userManager, UserPasswordEncoderInterface $encoder, Request $request)
+    public function updatePassword(Educator $educator, UserManager $userManager, UserPasswordEncoderInterface $encoder, Request $request)
     {
-//        $form = $this->createForm(FormType::class, $child);
-//
-//        $form->handleRequest($request);
-//
-//        if ($form->get('cancel')->isClicked()) {
-//            return new RedirectResponse($this->generateUrl('page.profile'));
-//        }
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $oldPassword = $form->get('oldPassword')->getData();
-//            if (!$encoder->isPasswordValid($child, $oldPassword)) {
-//                $this->addFlash('fail', 'Старый пароль введен неверно.');
-//
-//                return new RedirectResponse($this->generateUrl('page.home'));
-//            }
-//            $userManager->hashPassword($child);
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($child);
-//            $em->flush();
-//
-//            $this->addFlash('success', 'Пароль успешно обновлен.');
-//
-//            return new RedirectResponse($this->generateUrl('page.home'));
-//        }
-//
-//        return $this->render('forms/user/main.html.twig', [
-//            'form' => $form->createView(),
-//            'image' => 'img/user-edit.svg',
-//            'title' => 'Изменение пароля'
-//        ]);
-        return new RedirectResponse($this->generateUrl('page.home'));
+        $form = $this->createForm(EducatorPasswordUpdateType::class, $educator);
+
+        $form->handleRequest($request);
+
+        if ($form->get('cancel')->isClicked()) {
+            return new RedirectResponse($this->generateUrl('page.profile'));
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $oldPassword = $form->get('oldPassword')->getData();
+            if (!$encoder->isPasswordValid($educator, $oldPassword)) {
+                $this->addFlash('fail', 'Старый пароль введен неверно.');
+
+                return new RedirectResponse($this->generateUrl('page.home'));
+            }
+            $userManager->hashPassword($educator);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($educator);
+            $em->flush();
+
+            $this->addFlash('success', 'Пароль успешно обновлен.');
+
+            return new RedirectResponse($this->generateUrl('page.home'));
+        }
+
+        return $this->render('forms/educator/educator.html.twig', [
+            'form' => $form->createView(),
+            'image' => 'img/edit.svg',
+            'title' => 'Смена пароля'
+        ]);
     }
 
     /**
-     * @param Educator $user
+     * @param Educator $educator
      * @param Request $request
      * @return Response|null
      * @Route("/{id}/delete", name="delete")
      */
-    public function delete(Educator $user, Request $request)
+    public function delete(Educator $educator, Request $request)
     {
-//        $em = $this->getDoctrine()->getManager();
-//        $em->remove($user);
-//        $em->flush();
-//
-//        $this->get('security.token_storage')->setToken(null);
-//        $request->getSession()->invalidate();
-//
-//        $this->addFlash('success', 'Пользователь успешно удален.');
-//
-//        return new RedirectResponse($this->generateUrl('page.home'));
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($educator);
+        $em->flush();
+
+        if ($this->getUser() === $educator) {
+            $this->get('security.token_storage')->setToken(null);
+            $request->getSession()->invalidate();
+        }
+
+        $username = $educator->getUsername();
+        $this->addFlash('success', "Аккаунт пользователя $username успешно удален.");
+
         return new RedirectResponse($this->generateUrl('page.home'));
     }
 
     /**
-     * @param Educator $child
+     * @param Educator $educator
      * @param UserManager $userManager
      * @param Request $request
      * @return Response|null
      * @Route("/{id}/reset", name="reset")
      */
-    public function resetPassword(Educator $child, UserManager $userManager, Request $request)
+    public function resetPassword(Educator $educator, UserManager $userManager, Request $request)
     {
-//        $child->setPlainPassword(User::RESET_PASSWORD_VALUE);
-//        $userManager->hashPassword($child);
-//
-//        $em = $this->getDoctrine()->getManager();
-//        $em->persist($child);
-//        $em->flush();
-//
-//        $this->addFlash('success', 'Пароль успешно сброшен к значению по умолчанию.');
-//
-//        return new RedirectResponse($this->generateUrl('page.home'));
+        $educator->setPlainPassword(User::DEFAULT_PASSWORD);
+        $userManager->hashPassword($educator);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($educator);
+        $em->flush();
+
+        $username = $educator->getUsername();
+        $this->addFlash('success', "Пароль пользователя $username успешно сброшен к значению по умолчанию.");
+
         return new RedirectResponse($this->generateUrl('page.home'));
     }
 }

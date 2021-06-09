@@ -6,6 +6,9 @@ namespace App\Controller;
 
 use App\Entity\Child;
 use App\Entity\User;
+use App\Form\CreateType\ChildCreateType;
+use App\Form\UpdateType\ChildPasswordUpdateType;
+use App\Form\UpdateType\ChildUpdateType;
 use App\Service\UserManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,29 +35,33 @@ class ChildController extends AbstractController
      */
     public function create(UserManager $userManager, Request $request)
     {
-//        $user = new Child();
-//
-//        $form = $this->createForm(FormType::class, $user);
-//
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $userManager->hashPassword($user);
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($user);
-//            $em->flush();
-//
-//            $this->addFlash('success', "flash_message");
-//
-//            return new RedirectResponse($this->generateUrl('app_login'));
-//        }
-//
-//        return $this->render('forms/user/main.html.twig', [
-//            'form' => $form->createView(),
-//            'image' => 'img/logo.svg',
-//            'title' => 'Регистрация'
-//        ]);
-        return new RedirectResponse($this->generateUrl('page.home'));
+        $child = new Child();
+
+        $form = $this->createForm(ChildCreateType::class, $child);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $setDefaultPassword = $form->get('defaultPassword')->getData();
+            if ($setDefaultPassword) {
+                $child->setPlainPassword(User::DEFAULT_PASSWORD);
+            }
+            $userManager->hashPassword($child);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($child);
+            $em->flush();
+
+            $username = $child->getUsername();
+            $this->addFlash('success', "Пользователь $username успешно создан");
+
+            return new RedirectResponse($this->generateUrl('page.home'));
+        }
+
+        return $this->render('forms/child/child.html.twig', [
+            'form' => $form->createView(),
+            'image' => 'img/registration.svg',
+            'title' => 'Регистрация ребенка'
+        ]);
     }
 
     /**
@@ -65,30 +72,30 @@ class ChildController extends AbstractController
      */
     public function update(Child $child, Request $request)
     {
-//        $form = $this->createForm(FormType::class, $child);
-//
-//        $form->handleRequest($request);
-//
-//        if ($form->get('cancel')->isClicked()) {
-//            return new RedirectResponse($this->generateUrl('page.home'));
-//        }
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($child);
-//            $em->flush();
-//
-//            $this->addFlash('success', 'Данные успешно обновлены.');
-//
-//            return new RedirectResponse($this->generateUrl('page.profile'));
-//        }
-//
-//        return $this->render('forms/user/main.html.twig', [
-//            'form' => $form->createView(),
-//            'image' => 'img/user-edit.svg',
-//            'title' => 'Изменение данных'
-//        ]);
-        return new RedirectResponse($this->generateUrl('page.home'));
+        $form = $this->createForm(ChildUpdateType::class, $child);
+
+        $form->handleRequest($request);
+
+        if ($form->get('cancel')->isClicked()) {
+            return new RedirectResponse($this->generateUrl('page.home'));
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($child);
+            $em->flush();
+
+            $username = $child->getUsername();
+            $this->addFlash('success', "Данные пользователя $username успешно обновлены.");
+
+            return new RedirectResponse($this->generateUrl('page.profile'));
+        }
+
+        return $this->render('forms/child/child.html.twig', [
+            'form' => $form->createView(),
+            'image' => 'img/edit.svg',
+            'title' => 'Обновление данных'
+        ]);
     }
 
     /**
@@ -101,57 +108,58 @@ class ChildController extends AbstractController
      */
     public function updatePassword(Child $child, UserManager $userManager, UserPasswordEncoderInterface $encoder, Request $request)
     {
-//        $form = $this->createForm(FormType::class, $child);
-//
-//        $form->handleRequest($request);
-//
-//        if ($form->get('cancel')->isClicked()) {
-//            return new RedirectResponse($this->generateUrl('page.profile'));
-//        }
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $oldPassword = $form->get('oldPassword')->getData();
-//            if (!$encoder->isPasswordValid($child, $oldPassword)) {
-//                $this->addFlash('fail', 'Старый пароль введен неверно.');
-//
-//                return new RedirectResponse($this->generateUrl('page.home'));
-//            }
-//            $userManager->hashPassword($child);
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($child);
-//            $em->flush();
-//
-//            $this->addFlash('success', 'Пароль успешно обновлен.');
-//
-//            return new RedirectResponse($this->generateUrl('page.home'));
-//        }
-//
-//        return $this->render('forms/user/main.html.twig', [
-//            'form' => $form->createView(),
-//            'image' => 'img/user-edit.svg',
-//            'title' => 'Изменение пароля'
-//        ]);
-        return new RedirectResponse($this->generateUrl('page.home'));
+        $form = $this->createForm(ChildPasswordUpdateType::class, $child);
+
+        $form->handleRequest($request);
+
+        if ($form->get('cancel')->isClicked()) {
+            return new RedirectResponse($this->generateUrl('page.profile'));
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $oldPassword = $form->get('oldPassword')->getData();
+            if (!$encoder->isPasswordValid($child, $oldPassword)) {
+                $this->addFlash('fail', 'Старый пароль введен неверно.');
+
+                return new RedirectResponse($this->generateUrl('page.home'));
+            }
+            $userManager->hashPassword($child);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($child);
+            $em->flush();
+
+            $this->addFlash('success', 'Пароль успешно обновлен.');
+
+            return new RedirectResponse($this->generateUrl('page.home'));
+        }
+
+        return $this->render('forms/child/child.html.twig', [
+            'form' => $form->createView(),
+            'image' => 'img/edit.svg',
+            'title' => 'Смена пароля'
+        ]);
     }
 
     /**
-     * @param User $user
+     * @param Child $child
      * @param Request $request
      * @return Response|null
      * @Route("/{id}/delete", name="delete")
      */
-    public function delete(User $user, Request $request)
+    public function delete(Child $child, Request $request)
     {
-//        $em = $this->getDoctrine()->getManager();
-//        $em->remove($user);
-//        $em->flush();
-//
-//        $this->get('security.token_storage')->setToken(null);
-//        $request->getSession()->invalidate();
-//
-//        $this->addFlash('success', 'Пользователь успешно удален.');
-//
-//        return new RedirectResponse($this->generateUrl('page.home'));
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($child);
+        $em->flush();
+
+        if ($this->getUser() === $child) {
+            $this->get('security.token_storage')->setToken(null);
+            $request->getSession()->invalidate();
+        }
+
+        $username = $child->getUsername();
+        $this->addFlash('success', "Аккаунт пользователя $username успешно удален.");
+
         return new RedirectResponse($this->generateUrl('page.home'));
     }
 
@@ -164,16 +172,16 @@ class ChildController extends AbstractController
      */
     public function resetPassword(Child $child, UserManager $userManager, Request $request)
     {
-//        $child->setPlainPassword(User::RESET_PASSWORD_VALUE);
-//        $userManager->hashPassword($child);
-//
-//        $em = $this->getDoctrine()->getManager();
-//        $em->persist($child);
-//        $em->flush();
-//
-//        $this->addFlash('success', 'Пароль успешно сброшен к значению по умолчанию.');
-//
-//        return new RedirectResponse($this->generateUrl('page.home'));
+        $child->setPlainPassword(User::DEFAULT_PASSWORD);
+        $userManager->hashPassword($child);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($child);
+        $em->flush();
+
+        $username = $child->getUsername();
+        $this->addFlash('success', "Пароль пользователя $username успешно сброшен к значению по умолчанию.");
+
         return new RedirectResponse($this->generateUrl('page.home'));
     }
 }

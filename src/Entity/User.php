@@ -19,13 +19,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity()
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"child"="App\Entity\Child", "educator"="App\Entity\EducatorCreateType"})
+ * @ORM\DiscriminatorMap({"child"="App\Entity\Child", "educator"="App\Entity\Educator"})
  * @UniqueEntity(fields={"username"}, message="Пользователь с таким логином уже зарегистрирован.")
  * @ORM\Table(name="users")
  */
 abstract class User implements AdvancedUserInterface
 {
-    const RESET_PASSWORD_VALUE = 'default_password';
+    const DEFAULT_PASSWORD = 'default_password';
 
     const SEX_CHOICES = [
         'Мужчина' => 0,
@@ -55,14 +55,6 @@ abstract class User implements AdvancedUserInterface
      * @Assert\NotBlank()
      */
     private $username;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     * @Groups({"Main"})
-     * @Assert\Email()
-     */
-    private $email;
 
     /**
      * @var string
@@ -279,22 +271,6 @@ abstract class User implements AdvancedUserInterface
     }
 
     /**
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
      * @return string|null
      */
     public function getPlainPassword()
@@ -353,6 +329,22 @@ abstract class User implements AdvancedUserInterface
     public function setPhone($phone)
     {
         $this->phone = $phone;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName()
+    {
+        return sprintf('%s %s %s', $this->lastname, $this->firstname, $this->surname);
+    }
+
+    /**
+     * @return string
+     */
+    public function getShortName()
+    {
+        return sprintf('%s %s. %s.', $this->lastname, substr($this->firstname, 0, 1), substr($this->surname, 0, 1));
     }
 
     public function __toString()

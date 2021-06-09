@@ -1,21 +1,21 @@
 <?php
 
 
-namespace App\Form;
+namespace App\Form\UpdateType;
 
 
-use App\Entity\Educator;
+use App\Entity\Answer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EducatorCreateType extends AbstractType
+class AnswerUpdateType extends AbstractType
 {
 
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Educator::class
+            'data_class' => Answer::class
         ]);
     }
 }

@@ -1,21 +1,19 @@
 <?php
 
 
-namespace App\Form;
+namespace App\Form\UpdateType;
 
 
-use App\Entity\Answer;
-use Symfony\Component\Form\AbstractType;
+use App\Entity\Child;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AnswerCreateType extends AbstractType
+class ChildPasswordUpdateType extends UserPasswordUpdateType
 {
-
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Answer::class
+            'data_class' => Child::class,
         ]);
     }
 }

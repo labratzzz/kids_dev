@@ -42,13 +42,13 @@
         Дети
     </h2>
     {% if children is defined and children is not empty %}
-        <table class="table table-success table-striped align-middle">
+        <table class="table table-warning table-striped align-middle">
             <thead>
             <tr>
                 <th scope="col">№</th>
                 <th scope="col">Имя пользователя</th>
-                <th scope="col">Тип пользователя</th>
-                <th scope="col">Электронная почта</th>
+                <th scope="col">Логин</th>
+                <th scope="col">Телефон</th>
                 <th class="text-end" scope="col">Действия</th>
             </tr>
             </thead>
@@ -59,17 +59,17 @@
                         {{ loop.index }}
                     </th>
                     <td>
-                        {{ child.name }}
+                        {{ child.shortName }}
                     </td>
                     <td>
-                        {{ constant('App\\Entity\\User::USERTYPE_NAME')[user.type] }}
+                        {{ child.username }}
                     </td>
                     <td>
-                        {{ child.email }}
+                        <a class="link-warning" href="{{ 'call:+7'~child.phone }}">{{ child.formattedPhone }}</a>
                     </td>
                     <td>
                         <div class="btn-group float-end">
-                            <a href="{{ path('child.reset', {id: child.id}) }}" class="btn btn-secondary">
+                            <a href="{{ path('child.reset', {id: child.id}) }}" class="btn btn-warning">
                                 Сбросить пароль
                             </a>
                             <a href="{{ path('child.delete', {id: child.id}) }}" class="btn btn-danger">
@@ -124,7 +124,7 @@
         </div>
     {% else %}
         <div class="d-flex justify-content-center">
-            <div class="bg-warning text-wrap my-3 p-1 max-rounded">
+            <div class="bg-warning text-wrap my-3 py-1 px-2 max-rounded">
                 В системе не зарегистрировано еще ни одного ребенка.
             </div>
         </div>
@@ -134,12 +134,13 @@
         Педагоги
     </h2>
     {% if children is defined and children is not empty %}
-        <table class="table table-success table-striped align-middle">
+        <table class="table table-warning table-striped align-middle">
             <thead>
             <tr>
                 <th scope="col">№</th>
                 <th scope="col">Имя пользователя</th>
-                <th scope="col">Тип пользователя</th>
+                <th scope="col">Логин</th>
+                <th scope="col">Телефон</th>
                 <th scope="col">Электронная почта</th>
                 <th class="text-end" scope="col">Действия</th>
             </tr>
@@ -151,17 +152,20 @@
                         {{ loop.index }}
                     </th>
                     <td>
-                        {{ educator.name }}
+                        {{ educator.shortName }}
                     </td>
                     <td>
-                        {{ constant('App\\Entity\\User::USERTYPE_NAME')[educator.type] }}
+                        {{ educator.username }}
+                    </td>
+                    <td>
+                        <a class="link-warning" href="{{ 'call:+7'~educator.phone }}">{{ educator.formattedPhone }}</a>
                     </td>
                     <td>
                         {{ educator.email }}
                     </td>
                     <td>
                         <div class="btn-group float-end">
-                            <a href="{{ path('educator.reset', {id: educator.id}) }}" class="btn btn-secondary">
+                            <a href="{{ path('educator.reset', {id: educator.id}) }}" class="btn btn-warning">
                                 Сбросить пароль
                             </a>
                             <a href="{{ path('educator.delete', {id: educator.id}) }}" class="btn btn-danger">
@@ -216,7 +220,7 @@
         </div>
     {% else %}
         <div class="d-flex justify-content-center">
-            <div class="bg-warning text-wrap my-3 p-1 max-rounded">
+            <div class="bg-warning text-wrap my-3 py-1 px-2 max-rounded">
                 В системе не зарегистрировано еще ни одного педагога.
             </div>
         </div>
