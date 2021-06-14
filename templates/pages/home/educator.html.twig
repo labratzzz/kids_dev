@@ -1,0 +1,33 @@
+{% extends('pages/home/home.html.twig') %}
+
+{% block additional %}
+    {% if statistics is defined %}
+        <h2>
+            Статистика
+        </h2>
+        {% for statistic in statistics %}
+            <div class="row border-bottom mb-2">
+                <div class="col-md-3">
+                    <a class="nounderline" href="{{ path('test.view', {id: test.id}) }}">
+                        <img src="{{ asset('upload/'~post.image) }}" class="rounded mx-auto d-block mb-2 max-height-200 max-width-200" alt="">
+                    </a>
+                </div>
+                <div class="col-md-7">
+                    <a class="link-success nounderline" href="{{ path('post.view', {id: post.id}) }}">
+                        <h5>
+                            {{ post.title }}
+                        </h5>
+                    </a>
+                    <p>
+                        {{ test.description|length > 255 ? test.description|slice(0, 255) ~ '...' : test.description }}
+                    </p>
+                </div>
+                <div class="col-md-2">
+                    <a class="btn btn-warning d-block max-rounded px-5 my-1" href="{{ path('test.pass', {id:test.id}) }}">
+                        Пройти
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

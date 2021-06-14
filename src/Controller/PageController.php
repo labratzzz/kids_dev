@@ -51,7 +51,7 @@ class PageController extends AbstractController
             $educatorsQb = $this->getDoctrine()->getRepository(Educator::class)->getAllQueryBuilder();
             $educators = $this->paginate($educatorsQb->getQuery(), $educatorPage, $educatorPages);
 
-            return $this->render('pages/admin/admin.html.twig', [
+            return $this->render('pages/home/admin.html.twig', [
                 'pagetitle' => 'Панель администрирования',
                 'children' => $children,
                 'child_page' => $childPage,
@@ -62,8 +62,11 @@ class PageController extends AbstractController
             ]);
         }
 
+
+
         return $this->render('pages/home/home.html.twig', [
-            'pagetitle' => 'Домашняя'
+            'pagetitle' => 'Домашняя',
+            'is_educator' => $user instanceof Educator
         ]);
     }
 

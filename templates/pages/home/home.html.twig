@@ -1,1 +1,104 @@
 {% extends('content.html.twig') %}
+
+{% if app.user.sex == 0 and is_educator %}
+    {% set img = 'img/teacher-male.svg' %}
+    {% set usertype = 'educator' %}
+    {% set sex_str = 'Мужской' %}
+{% elseif app.user.sex == 0 and not is_educator %}
+    {% set img = 'img/boy.svg' %}
+    {% set usertype = 'child' %}
+    {% set sex_str = 'Мальчик' %}
+{% elseif app.user.sex == 1 and is_educator %}
+    {% set img = 'img/teacher-female.svg' %}
+    {% set usertype = 'educator' %}
+    {% set sex_str = 'Женский' %}
+{% elseif app.user.sex == 1 and not is_educator %}
+    {% set img = 'img/girl.svg' %}
+    {% set usertype = 'child' %}
+    {% set sex_str = 'Девочка' %}
+{% endif %}
+
+{% block content %}
+    <h1 class="text-center">
+        {{ app.user.shortname }}
+    </h1>
+    <div class="row">
+        <div class="col-md-3 rounded-circle">
+            <img class="img-fill" src="{{ asset(img) }}" alt="">
+        </div>
+        <div class="col-md-7">
+            <table class="table table-warning">
+                <tbody>
+                    <tr>
+                        <th>
+                            ФИО
+                        </th>
+                        <td>
+                            {{ app.user.fullname }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Логин
+                        </th>
+                        <td>
+                            {{ app.user.username }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Пол
+                        </th>
+                        <td>
+                            {{ sex_str }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Телефон
+                        </th>
+                        <td>
+                            {{ app.user.formattedPhone }}
+                        </td>
+                    </tr>
+                {% if usertype == 'child' %}
+                    <tr>
+                        <th>
+                            День рождения
+                        </th>
+                        <td>
+                            {{ app.user.birthday|date("d.m.Y") }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <th>
+                            Электронная почта
+                        </th>
+                        <td>
+                            {{ app.user.email }}
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn btn-warning d-block max-rounded px-5 my-1" href="{{ path(usertype~'.update', {id:app.user.id}) }}">
+                Изменить
+            </a>
+            <a class="btn btn-warning d-block max-rounded px-5 my-1" href="{{ path(usertype~'.password', {id:app.user.id}) }}">
+                Изменить пароль
+            </a>
+            <a class="btn btn-danger d-block max-rounded px-5 my-1" href="{{ path('app_logout') }}">
+                Выйти
+            </a>
+        </div>
+        <div class="col-md-3">
+            {% block additional %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
