@@ -24,13 +24,13 @@ class UserCreateType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'my-2']
             ])
-            ->add('firstname', TextType::class, [
-                'label' => 'Имя',
+            ->add('lastname', TextType::class, [
+                'label' => 'Фамилия',
                 'required' => true,
                 'attr' => ['class' => 'my-2']
             ])
-            ->add('lastname', TextType::class, [
-                'label' => 'Фамилия',
+            ->add('firstname', TextType::class, [
+                'label' => 'Имя',
                 'required' => true,
                 'attr' => ['class' => 'my-2']
             ])

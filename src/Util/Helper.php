@@ -41,13 +41,16 @@ class Helper
         return sprintf('%s-%s-%s', $prefix, (new \DateTime())->format('YmdHis'), uniqid());
     }
 
-    public static function uploadFile(UploadedFile $file, string $uploadDir) {
+    public static function uploadFile($file, string $uploadDir) {
         if ($file) {
             $extension = $file->guessClientExtension();
             if (in_array($extension, Image::ALLOWED_EXTENSIONS)) {
                 $filename = self::generateFilename() . '.' . $extension;
+                /** @var UploadedFile $file */
                 $file->move($uploadDir, $filename);
-                return $file->getPath();
+                $uploadDir = explode(DIRECTORY_SEPARATOR, $uploadDir);
+                $uploadDir = array_pop($uploadDir);
+                return $uploadDir.DIRECTORY_SEPARATOR.$filename;
             }
         }
         return null;

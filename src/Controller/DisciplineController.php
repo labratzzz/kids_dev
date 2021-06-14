@@ -3,8 +3,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Child;
 use App\Entity\Discipline;
 use App\Entity\Educator;
+use App\Entity\Test;
 use App\Form\CreateType\DisciplineCreateType;
 use App\Form\UpdateType\DisciplineUpdateType;
 use App\Util\Helper;
@@ -23,6 +25,29 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DisciplineController extends AbstractController
 {
+
+    /**
+     * @param Discipline $discipline
+     * @param Request $request
+     * @return Response|null
+     * @Route("/view/{id}", name="view")
+     */
+    public function view(Discipline $discipline, Request $request)
+    {
+        $testPage = $request->query->get('tpage', 1);
+
+        $testQb = $this->getDoctrine()->getRepository(Test::class)->getByDisciplineQueryBuilder($discipline);
+        $tests = $this->paginate($testQb->getQuery(), $testPage, $testPages);
+
+        return $this->render('forms/discipline/view.html.twig', [
+            'discipline' => $discipline,
+            'tests' => $tests,
+            'test_page' => $testPage,
+            'test_pages' => $testPages,
+            'has_access' => $this->getUser() instanceof Educator,
+            'is_child' => $this->getUser() instanceof Child
+        ]);
+    }
 
     /**
      * @param Request $request

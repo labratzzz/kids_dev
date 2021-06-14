@@ -1,1 +1,12 @@
 {% extends('wideform.html.twig') %}
+
+{% block beforeform %}
+    <h2 class="fw-bold">
+        <img src="{{ asset(image) }}" width="100" height="100" class="align-center me-3" alt="">
+        {{ title }}
+    </h2>
+{% endblock %}
+
+{% block form %}
+    {{ form(form) }}
+{% endblock %}

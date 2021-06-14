@@ -1,0 +1,96 @@
+{% extends('content.html.twig') %}
+
+{% block content %}
+    <h1 class="text-center">
+        Вопрос: {{ question.line }}
+    </h1>
+{% if answers is defined and answers is not empty %}
+<div class="container bg-light mb-3">
+    {% for answer in answers %}
+        <div class="row border-bottom mb-2">
+            <div class="col-md-3">
+                <a class="nounderline" href="{{ path('question.view', {id: answer.id}) }}">
+                    <img src="{{ asset(''~answer.image) }}" class="rounded mx-auto d-block mb-2 max-height-200 max-width-200" alt="">
+                </a>
+            </div>
+            {% if has_access %}
+                <div class="col-md-7">
+                    <h5>
+                        {{ answer.line }}
+                    </h5>
+                </div>
+                <div class="col-md-2">
+                    <a class="btn btn-warning d-block max-rounded px-5 my-1" href="{{ path('answer.update', {id:answer.id}) }}">
+                        Изменить
+                    </a>
+                    <a class="btn btn-danger d-block max-rounded px-5 my-1" href="{{ path('answer.delete', {id:answer.id}) }}">
+                        Удалить
+                    </a>
+                </div>
+            {% else %}
+                <div class="col-md-9">
+                    <h5>
+                        {{ answer.line }}
+                    </h5>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+<div class="d-flex justify-content-center">
+    <nav aria-label="...">
+        <ul class="pagination">
+            {% if answer_page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'apage':answer_page-1})) }}" tabindex="-1">
+                        <
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'apage':answer_page-1})) }}">{{ answer_page-1 }}</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link disabled" tabindex="-1">
+                        <
+                    </a>
+                </li>
+            {% endif %}
+            <li class="page-item active">
+                <a class="page-link" href="">{{ answer_page }}</a>
+            </li>
+            {% if answer_page != answer_pages %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'apage':answer_page+1})) }}">{{ answer_page+1 }}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'apage':answer_page+1})) }}">
+                        >
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">
+                        >
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% else %}
+    <div class="d-flex justify-content-center">
+        <div class="bg-warning text-wrap my-3 py-1 px-2 max-rounded">
+            В этом вопросе еще нет ни одного варианта ответа.
+        </div>
+    </div>
+{% endif %}
+
+    {% if has_access %}
+        <div class="container d-flex justify-content-center">
+            <a class="btn btn-warning d-block max-rounded px-5 my-2" href="{{ path('answer.create', {id:question.id}) }}">
+                Добавить вариант ответа
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}

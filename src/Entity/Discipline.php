@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Class Discipline
  * @package App\Entity
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\DisciplineRepository")
  * @ORM\Table(name="disciplines")
  */
 class Discipline
@@ -110,6 +110,11 @@ class Discipline
     public function setTests($tests)
     {
         $this->tests = $tests;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
 }

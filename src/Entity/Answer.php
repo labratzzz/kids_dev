@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Class Answer
  * @package App\Entity
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\AnswerRepository")
  * @ORM\Table(name="answers")
  */
 class Answer
@@ -102,6 +102,11 @@ class Answer
     public function setQuestion($question)
     {
         $this->question = $question;
+    }
+
+    public function __toString()
+    {
+        return $this->line;
     }
 
 }

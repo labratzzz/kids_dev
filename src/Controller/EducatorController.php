@@ -91,7 +91,7 @@ class EducatorController extends AbstractController
 
         return $this->render('forms/educator/educator.html.twig', [
             'form' => $form->createView(),
-            'image' => 'img/edit.svg',
+            'image' => 'img/registration.svg',
             'title' => 'Обновление данных'
         ]);
     }
@@ -133,7 +133,7 @@ class EducatorController extends AbstractController
 
         return $this->render('forms/educator/educator.html.twig', [
             'form' => $form->createView(),
-            'image' => 'img/edit.svg',
+            'image' => 'img/registration.svg',
             'title' => 'Смена пароля'
         ]);
     }

@@ -4,7 +4,9 @@
 namespace App\Controller;
 
 use App\Entity\Child;
+use App\Entity\Discipline;
 use App\Entity\Educator;
+use App\Entity\Test;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -84,8 +86,17 @@ class PageController extends AbstractController
      */
     public function disciplinesPage(Request $request)
     {
+        $disciplinePage = $request->query->get('dpage', 1);
+
+        $disciplineQb = $this->getDoctrine()->getRepository(Discipline::class)->getAllQueryBuilder();
+        $disciplines = $this->paginate($disciplineQb->getQuery(), $disciplinePage, $disciplinePages);
+
         return $this->render('pages/disciplines/disciplines.html.twig', [
-            'pagetitle' => 'Предметы'
+            'pagetitle' => 'Предметы',
+            'disciplines' => $disciplines,
+            'discipline_page' => $disciplinePage,
+            'discipline_pages' => $disciplinePages,
+            'has_access' => $this->getUser() instanceof Educator
         ]);
     }
 
@@ -96,8 +107,18 @@ class PageController extends AbstractController
      */
     public function testsPage(Request $request)
     {
+        $testPage = $request->query->get('tpage', 1);
+
+        $testQb = $this->getDoctrine()->getRepository(Test::class)->getAllQueryBuilder();
+        $tests = $this->paginate($testQb->getQuery(), $testPage, $testPages);
+
         return $this->render('pages/tests/tests.html.twig', [
-            'pagetitle' => 'Тесты'
+            'pagetitle' => 'Все тесты',
+            'tests' => $tests,
+            'test_page' => $testPage,
+            'test_pages' => $testPages,
+            'has_access' => $this->getUser() instanceof Educator,
+            'is_child' => $this->getUser() instanceof Child,
         ]);
     }
 

@@ -3,9 +3,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Discipline;
 use App\Entity\Educator;
+use App\Entity\Question;
 use App\Entity\Test;
 use App\Enums\Image;
+use App\Form\CreateType\DisciplineCreateType;
 use App\Form\CreateType\TestCreateType;
 use App\Form\UpdateType\TestUpdateType;
 use App\Util\Helper;
@@ -25,6 +28,40 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TestController extends AbstractController
 {
+
+    /**
+     * @param Test $test
+     * @param Request $request
+     * @return Response|null
+     * @Route("/view/{id}", name="view")
+     */
+    public function view(Test $test, Request $request)
+    {
+        $questionPage = $request->query->get('tpage', 1);
+
+        $questionQb = $this->getDoctrine()->getRepository(Question::class)->getByTestQueryBuilder($test);
+        $questions = $this->paginate($questionQb->getQuery(), $questionPage, $questionPages);
+
+        return $this->render('forms/test/view.html.twig', [
+            'test' => $test,
+            'questions' => $questions,
+            'question_page' => $questionPage,
+            'question_pages' => $questionPages,
+            'has_access' => $this->getUser() instanceof Educator
+        ]);
+    }
+
+    /**
+     * @param Test $test
+     * @param Request $request
+     * @return Response|null
+     * @Route("/pass/{id}", name="pass")
+     */
+    public function pass(Test $test, Request $request)
+    {
+       $questions = $test->getQuestions()->toArray();
+       return new RedirectResponse($this->generateUrl('question.pass', ['id' => (array_shift($questions))->getId()]));
+    }
 
     /**
      * @param Request $request

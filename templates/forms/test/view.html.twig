@@ -1,0 +1,106 @@
+{% extends('content.html.twig') %}
+
+{% block content %}
+    <h1 class="text-center">
+        Тест: {{ test.name }}
+    </h1>
+{% if questions is defined and questions is not empty %}
+<div class="container bg-light mb-3">
+    {% for question in questions %}
+        <div class="row border-bottom mb-2">
+            <div class="col-md-3">
+                <a class="nounderline" href="{{ path('question.view', {id: question.id}) }}">
+                    <img src="{{ asset(''~question.image) }}" class="rounded mx-auto d-block mb-2 max-height-200 max-width-200" alt="">
+                </a>
+            </div>
+            {% if has_access %}
+                <div class="col-md-7">
+                    <a class="link-warning nounderline" href="{{ path('question.view', {id: question.id}) }}">
+                        <h5>
+                            {{ question.line }}
+                        </h5>
+                    </a>
+                    <p>
+                        {{ question.text|length > 255 ? question.text|slice(0, 255) ~ '...' : question.text }}
+                    </p>
+                </div>
+                <div class="col-md-2">
+                    <a class="btn btn-warning d-block max-rounded px-5 my-1" href="{{ path('question.update', {id:question.id}) }}">
+                        Изменить
+                    </a>
+                    <a class="btn btn-danger d-block max-rounded px-5 my-1" href="{{ path('question.delete', {id:question.id}) }}">
+                        Удалить
+                    </a>
+                </div>
+            {% else %}
+                <div class="col-md-9">
+                    <a class="link-warning nounderline" href="{{ path('question.view', {id: question.id}) }}">
+                        <h5>
+                            {{ question.line }}
+                        </h5>
+                    </a>
+                    <p>
+                        {{ question.text|length > 255 ? question.text|slice(0, 255) ~ '...' : question.text }}
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+<div class="d-flex justify-content-center">
+    <nav aria-label="...">
+        <ul class="pagination">
+            {% if question_page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'qpage':question_page-1})) }}" tabindex="-1">
+                        <
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'qpage':question_page-1})) }}">{{ question_page-1 }}</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link disabled" tabindex="-1">
+                        <
+                    </a>
+                </li>
+            {% endif %}
+            <li class="page-item active">
+                <a class="page-link" href="">{{ question_page }}</a>
+            </li>
+            {% if question_page != question_pages %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'qpage':question_page+1})) }}">{{ question_page+1 }}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(currentRoute, currentQuery|merge({'qpage':question_page+1})) }}">
+                        >
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">
+                        >
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% else %}
+    <div class="d-flex justify-content-center">
+        <div class="bg-warning text-wrap my-3 py-1 px-2 max-rounded">
+            В этом тест еще нет ни одного вопроса.
+        </div>
+    </div>
+{% endif %}
+
+    {% if has_access %}
+        <div class="container d-flex justify-content-center">
+            <a class="btn btn-warning d-block max-rounded px-5 my-2" href="{{ path('question.create', {id:test.id}) }}">
+                Добавить вопрос
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}

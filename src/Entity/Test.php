@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Class Test
  * @package App\Entity
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\TestRepository")
  * @ORM\Table(name="tests")
  */
 class Test
