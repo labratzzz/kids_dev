@@ -4,7 +4,6 @@
 namespace App\Repository;
 
 
-use App\Entity\Discipline;
 use App\Entity\Test;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
@@ -13,7 +12,7 @@ use Doctrine\ORM\QueryBuilder;
 class QuestionRepository extends EntityRepository
 {
     /**
-     * Returns Doctrine QueryBuilder with all users with descending createdAt.
+     * Returns Doctrine QueryBuilder with all questions of given test.
      *
      * @param Test $test
      * @return QueryBuilder

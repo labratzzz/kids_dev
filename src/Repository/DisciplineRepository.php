@@ -10,14 +10,12 @@ use Doctrine\ORM\QueryBuilder;
 class DisciplineRepository extends EntityRepository
 {
     /**
-     * Returns Doctrine QueryBuilder with all users with descending createdAt.
+     * Returns Doctrine QueryBuilder with all disciplines.
      *
      * @return QueryBuilder
      */
     public function getAllQueryBuilder()
     {
-        $qb = $this->createQueryBuilder('d');
-
-        return $qb;
+       return $this->createQueryBuilder('d');
     }
 }

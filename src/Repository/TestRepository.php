@@ -12,20 +12,17 @@ use Doctrine\ORM\QueryBuilder;
 class TestRepository extends EntityRepository
 {
     /**
-     * Returns Doctrine QueryBuilder with all users with descending createdAt.
+     * Returns Doctrine QueryBuilder with all tests.
      *
-     * @param Discipline $discipline
      * @return QueryBuilder
      */
     public function getAllQueryBuilder()
     {
-        $qb = $this->createQueryBuilder('t');
-
-        return $qb;
+        return $this->createQueryBuilder('t');;
     }
 
     /**
-     * Returns Doctrine QueryBuilder with all users with descending createdAt.
+     * Returns Doctrine QueryBuilder with all tests of given Discipline.
      *
      * @param Discipline $discipline
      * @return QueryBuilder

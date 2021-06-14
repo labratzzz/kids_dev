@@ -10,7 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 class ChildRepository extends EntityRepository
 {
     /**
-     * Returns Doctrine QueryBuilder with all users with descending createdAt.
+     * Returns Doctrine QueryBuilder with all children with descending createdAt.
      *
      * @return QueryBuilder
      */
@@ -21,7 +21,4 @@ class ChildRepository extends EntityRepository
 
         return $qb;
     }
-}
-{
-
 }

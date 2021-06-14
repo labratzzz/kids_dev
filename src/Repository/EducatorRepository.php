@@ -10,7 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 class EducatorRepository extends EntityRepository
 {
     /**
-     * Returns Doctrine QueryBuilder with all users with descending createdAt.
+     * Returns Doctrine QueryBuilder with all educators with descending createdAt.
      *
      * @return QueryBuilder
      */
