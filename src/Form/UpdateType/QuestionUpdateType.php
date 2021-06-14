@@ -37,25 +37,21 @@ class QuestionUpdateType extends AbstractType
                 ],
                 'mapped' => false
             ])
-            ->add('correctAnswer', EntityType::class, [
-                'label' => 'Правильный ответ',
-                'class' => Answer::class,
-                'required' => true,
-                'attr' => ['class' => 'form-control my-2']
-            ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
                 /** @var Question $question */
                 $question = $event->getData();
                 $form = $event->getForm();
 
-                $field = $form->get('correctAnswer');
-                $options = $field->getConfig()->getOptions();
-                $options['choices'] = $question->getAnswers();
-
-                $form->add($field->getName(), EntityType::class, $options);
+                $form->add('correctAnswer', EntityType::class, [
+                    'label' => 'Правильный ответ',
+                    'class' => Answer::class,
+                    'required' => true,
+                    'attr' => ['class' => 'form-control my-2'],
+                    'choices' => $question->getAnswers()
+                ]);
             })
             ->add('submit', SubmitType::class, [
-                'label' => 'Создать',
+                'label' => 'Обновить',
                 'attr' => ['class' => 'btn btn-warning float-start my-2 me-2']
             ])
             ->add('cancel', SubmitType::class, [

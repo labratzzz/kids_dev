@@ -146,7 +146,7 @@ class QuestionController extends AbstractController
             return new RedirectResponse($this->generateUrl('page.home'));
         }
 
-        return $this->render('forms/question/question.html.twig', [
+        return $this->render('forms/question/question_update.html.twig', [
             'form' => $form->createView(),
             'image' => 'img/question.svg',
             'title' => 'Изменение вопроса'

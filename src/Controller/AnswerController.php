@@ -45,23 +45,14 @@ class AnswerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($answer);
-            $em->flush();
-
-            $this->addFlash('success', "Вариант ответа успешно создан.");
-
-            return new RedirectResponse($this->generateUrl('page.home'));
-        }
-        if ($form->isSubmitted() && $form->isValid()) {
             $files = $request->files->get('answer_create');
             $file = Helper::uploadFile(array_shift($files), $this->getParameter('upload_dir'));
             if ($file)
             {
-                $question->setImage($file);
+                $answer->setImage($file);
 
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($question);
+                $em->persist($answer);
                 $em->flush();
 
                 $this->addFlash('success', 'Вариант ответа успешно создан.');
@@ -112,7 +103,7 @@ class AnswerController extends AbstractController
 
             $this->addFlash('success', 'Вариант ответа успешно обновлен.');
 
-            return new RedirectResponse($this->generateUrl('page.profile'));
+            return new RedirectResponse($this->generateUrl('page.home'));
         }
 
         return $this->render('forms/answer/answer.html.twig', [
