@@ -35,16 +35,8 @@
                     <div class="collapse navbar-collapse" id="navbarResponsive">
                         <ul class="navbar-nav ms-auto">
                             {% block navbar_links %}
-                            <li class="nav-item fw-bold">
-                                <a class="nav-link" href="{{ path('page.home') }}">
-                                    <img src="{{ asset('img/house.svg') }}" width="30" height="30" class="d-inline-block me-2 align-center" alt="">
-                                    <span>
-                                        Домой
-                                    </span>
-                                </a>
-                            </li>
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <li class="nav-item fw-bold">
+                            <li class="nav-item fw-bold grow">
                                 <a class="nav-link" href="{{ path('page.tests') }}">
                                     <img src="{{ asset('img/test.svg') }}" width="30" height="30" class="d-inline-block me-2 align-center" alt="">
                                     <span>
@@ -52,7 +44,7 @@
                                     </span>
                                 </a>
                             </li>
-                            <li class="nav-item fw-bold">
+                            <li class="nav-item fw-bold grow">
                                 <a class="nav-link" href="{{ path('page.disciplines') }}">
                                     <img src="{{ asset('img/blackboard.svg') }}" width="30" height="30" class="d-inline-block me-2 align-center" alt="">
                                     <span>
@@ -61,7 +53,7 @@
                                 </a>
                             </li>
                             {% endif %}
-                            <li class="nav-item fw-bold">
+                            <li class="nav-item fw-bold grow">
                                 <a class="nav-link" href="{{ path('page.about') }}">
                                     <img src="{{ asset('img/about.svg') }}" width="30" height="30" class="d-inline-block me-2 align-center" alt="">
                                     <span>
@@ -70,7 +62,7 @@
                                 </a>
                             </li>
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <li class="nav-item fw-bold">
+                            <li class="nav-item fw-bold grow">
                                 <a class="nav-link" href="tg://resolve?domain=alexbabychannel">
                                     <img src="{{ asset('img/telegram.svg') }}" width="30" height="30" class="d-inline-block me-2 align-center" alt="">
                                     <span>
@@ -78,12 +70,15 @@
                                     </span>
                                 </a>
                             </li>
-                                <li class="nav-item">
+                                <li class="nav-item grow">
                                     <a class="nav-link" href="{{ path('page.home') }}">
-                                        Привет, <span class="fw-bold">{{ app.user.username }}</span>
+                                        <img src="{{ asset('img/house.svg') }}" width="30" height="30" class="d-inline-block me-2 align-center" alt="">
+                                        <span>
+                                            Привет, <span class="fw-bold">{{ app.user.username }}</span>
+                                        </span>
                                     </a>
                                 </li>
-                                <li class="nav-item fw-bold">
+                                <li class="nav-item fw-bold grow">
                                     <a class="nav-link" href="{{ path('app_logout') }}">
                                         <img src="{{ asset('img/logout.svg') }}" width="30" height="30" class="d-inline-block me-2 align-center" alt="">
                                         <span>
@@ -92,7 +87,7 @@
                                     </a>
                                 </li>
                             {% else %}
-                                <li class="nav-item fw-bold">
+                                <li class="nav-item fw-bold grow">
                                     <a class="nav-link" href="{{ path('app_login') }}">
                                         <img src="{{ asset('img/login.svg') }}" width="30" height="30" class="d-inline-block me-2 align-center" alt="">
                                         <span>

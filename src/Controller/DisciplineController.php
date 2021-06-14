@@ -154,7 +154,7 @@ class DisciplineController extends AbstractController
 
         $this->addFlash('success', 'Предмет и содержащиеся в нем тесты успешно удалены.');
 
-        return new RedirectResponse($this->generateUrl('page.home'));
+        return new RedirectResponse($this->generateUrl('page.disciplines'));
     }
 
 }

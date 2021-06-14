@@ -150,11 +150,6 @@ class EducatorController extends AbstractController
         $em->remove($educator);
         $em->flush();
 
-        if ($this->getUser() === $educator) {
-            $this->get('security.token_storage')->setToken(null);
-            $request->getSession()->invalidate();
-        }
-
         $username = $educator->getUsername();
         $this->addFlash('success', "Аккаунт пользователя $username успешно удален.");
 

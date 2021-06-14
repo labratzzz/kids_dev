@@ -152,11 +152,6 @@ class ChildController extends AbstractController
         $em->remove($child);
         $em->flush();
 
-        if ($this->getUser() === $child) {
-            $this->get('security.token_storage')->setToken(null);
-            $request->getSession()->invalidate();
-        }
-
         $username = $child->getUsername();
         $this->addFlash('success', "Аккаунт пользователя $username успешно удален.");
 
