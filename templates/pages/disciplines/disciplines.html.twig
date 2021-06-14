@@ -5,16 +5,18 @@
         Предметы
     </h1>
     {% if disciplines is defined and disciplines is not empty %}
-        <div class="container-fluid d-flex justify-content-center">
+        <div class="container-fluid d-flex flex-wrap justify-content-center">
             {% for discipline in disciplines %}
-                <div>
+                <div class="mx-2">
                     <div class="text-center">
                         <a href="{{ path('discipline.view', {id:discipline.id}) }}">
                             <img width="100" height="100" src="{{ asset(''~discipline.image) }}" alt="">
                         </a>
                     </div>
-                    <div class="my-2">
-                        <a class="nounderline link-warning" href="{{ path('discipline.view', {id:discipline.id}) }}">{{ discipline.name }}</a>
+                    <div class="my-2 text-center">
+                        <a class="nounderline link-warning" href="{{ path('discipline.view', {id:discipline.id}) }}">
+                            {{ discipline.name }}
+                        </a>
                         {% if has_access %}
                             <a class="btn btn-warning d-block max-rounded px-5 my-1" href="{{ path('discipline.update', {id:discipline.id}) }}">
                                 Изменить
@@ -78,8 +80,8 @@
 
     {% if has_access %}
        <div class="container d-flex justify-content-center">
-           <a class="btn btn-warning d-block max-rounded px-5 my-2" href="{{ path('educator.create') }}">
-               Создать новый тест
+           <a class="btn btn-warning d-block max-rounded px-5 my-2" href="{{ path('discipline.create') }}">
+               Добавить новый предмет
            </a>
        </div>
     {% endif %}
