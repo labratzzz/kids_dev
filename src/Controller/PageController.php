@@ -60,14 +60,21 @@ class PageController extends AbstractController
                 'educator_page' => $educatorPage,
                 'educator_pages' => $educatorPages
             ]);
+        } else if ($user instanceof Child) {
+            $testQb = $this->getDoctrine()->getRepository(Test::class)->getAllQueryBuilder();
+            $lastTests = $this->paginate($testQb->getQuery(), 1, $testPages, 5);
+
+            return $this->render('pages/home/child.html.twig', [
+                'lasttests' => $lastTests,
+                'pagetitle' => 'Домашняя',
+                'is_educator' => false
+            ]);
+        } else {
+            return $this->render('pages/home/educator.html.twig', [
+                'pagetitle' => 'Домашняя',
+                'is_educator' => true
+            ]);
         }
-
-
-
-        return $this->render('pages/home/home.html.twig', [
-            'pagetitle' => 'Домашняя',
-            'is_educator' => $user instanceof Educator
-        ]);
     }
 
     /**

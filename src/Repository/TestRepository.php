@@ -18,7 +18,7 @@ class TestRepository extends EntityRepository
      */
     public function getAllQueryBuilder()
     {
-        return $this->createQueryBuilder('t');;
+        return $this->createQueryBuilder('t');
     }
 
     /**
