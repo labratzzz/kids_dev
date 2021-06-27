@@ -126,7 +126,7 @@ class DisciplineController extends AbstractController
 
             $this->addFlash('success', 'Предмет успешно обновлен.');
 
-            return new RedirectResponse($this->generateUrl('page.profile'));
+            return new RedirectResponse($this->generateUrl('page.home'));
         }
 
         return $this->render('forms/discipline/discipline.html.twig', [

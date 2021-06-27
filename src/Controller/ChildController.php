@@ -88,7 +88,7 @@ class ChildController extends AbstractController
             $username = $child->getUsername();
             $this->addFlash('success', "Данные пользователя $username успешно обновлены.");
 
-            return new RedirectResponse($this->generateUrl('page.profile'));
+            return new RedirectResponse($this->generateUrl('page.home'));
         }
 
         return $this->render('forms/child/child.html.twig', [
@@ -113,7 +113,7 @@ class ChildController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->get('cancel')->isClicked()) {
-            return new RedirectResponse($this->generateUrl('page.profile'));
+            return new RedirectResponse($this->generateUrl('page.home'));
         }
 
         if ($form->isSubmitted() && $form->isValid()) {

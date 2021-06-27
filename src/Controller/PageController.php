@@ -4,8 +4,10 @@
 namespace App\Controller;
 
 use App\Entity\Child;
+use App\Entity\ChildAnswer;
 use App\Entity\Discipline;
 use App\Entity\Educator;
+use App\Entity\Question;
 use App\Entity\Test;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
