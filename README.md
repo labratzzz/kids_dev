@@ -1,6 +1,6 @@
 # kids_development
 
-This is my project for a paticular student that had to write application for preschool children development. 
+This is my project for a particular student that had to write application for preschool children development. 
 So I offered him to make a web-application on technologies that I knew and wanted to do some more things with them.
 
 I don't think that I will continue to work on this project.
@@ -25,8 +25,8 @@ Programming languages involved:
 1. PHP 7.2.34
 1. JavaScript
 
-### Techonologies
-Techonologies involved:
+### Technologies
+Technologies involved:
 1. PHP Symfony Framework v3.4
 1. Doctrine ORM v2.7.5
 1. Twig Templating Engine v2.14.6
@@ -36,14 +36,14 @@ Techonologies involved:
 ### Development environment startup instructions
 Instructions for starting project:
 1. Clone this repository
-1. Install PHP and Composer following this instructions:  
+1. Install PHP and Composer following these instructions:  
     1. Open terminal and execute these commands:
         ```
         sudo add-apt-repository ppa:ondrej/php
         sudo apt-get update
         sudo apt-get install composer php7.2 php7.2-xdebug php7.2-xml php7.2-mysql php7.2-mbstring php7.2-gd php7.2-intl php7.2-curl
         ```
-    1. Make sure that all was installed correctly using this commands:
+    1. Make sure all installed correctly using this commands:
         ```
         php -v
         composer
@@ -57,7 +57,7 @@ Instructions for starting project:
         ```
         sudo apt install mysql-server
         ```
-    1. Create `mysql` user with this commands:
+    1. Create `mysql` user with these commands:
         ```
         mysql -u root
         CREATE USER 'mysql'@'localhost' IDENTIFIED WITH mysql_native_password BY 'mysql';
@@ -84,4 +84,4 @@ To get some more info about commands, features and other visit [Symfony 3.4 Docu
 
 - - -
 
-If you have some questions feel free to ask. Althrough my English is not so good, so I might have missed some things.
+If you have some questions feel free to ask. Although my English is not so good, so I might have missed some things.
