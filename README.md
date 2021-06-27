@@ -35,44 +35,44 @@ Instructions for starting project:
 1. Clone this repository
 1. Install PHP and Composer following this instructions:  
     1. Open terminal and execute these commands:
-    ```
-    sudo add-apt-repository ppa:ondrej/php
-    sudo apt-get update
-    sudo apt-get install composer php7.2 php7.2-xdebug php7.2-xml php7.2-mysql php7.2-mbstring php7.2-gd php7.2-intl php7.2-curl
-    ```
+        ```
+        sudo add-apt-repository ppa:ondrej/php
+        sudo apt-get update
+        sudo apt-get install composer php7.2 php7.2-xdebug php7.2-xml php7.2-mysql php7.2-mbstring php7.2-gd php7.2-intl php7.2-curl
+        ```
     1. Make sure that all was installed correctly using this commands:
-    ```
-    php -v
-    composer
-    ```
+        ```
+        php -v
+        composer
+        ```
     1. Downgrade composer:
-    ```
-    composer self-update 1.10.1
-    ```
+        ```
+        composer self-update 1.10.1
+        ```
 1. Install MySQL:
     1. Use terminal:
-    ```
-    sudo apt install mysql-server
-    ```
+        ```
+        sudo apt install mysql-server
+        ```
     1. Create `mysql` user with this commands:
-    ```
-    mysql -u root
-    CREATE USER 'mysql'@'localhost' IDENTIFIED WITH mysql_native_password BY 'mysql';
-    GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'localhost';
-    FLUSH PRIVILEGES;
-    ```
+        ```
+        mysql -u root
+        CREATE USER 'mysql'@'localhost' IDENTIFIED WITH mysql_native_password BY 'mysql';
+        GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'localhost';
+        FLUSH PRIVILEGES;
+        ```
 1. Open terminal at the root of a project (where composer.json is located) and run:
-```
-composer install
-```
+    ```
+    composer install
+    ```
 1. Run `deploy.sh` to deploy a mysql database. To do that execute:
-```
-sh  deploy.sh
-```
+    ```
+    sh  deploy.sh
+    ```
 1. Finally, run development web-server to startup the project:
-```
-bin/console server:start
-```
+    ```
+    bin/console server:start
+    ```
 
 - - -
 
