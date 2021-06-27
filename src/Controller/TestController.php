@@ -60,7 +60,7 @@ class TestController extends AbstractController
     public function pass(Test $test, Request $request)
     {
        $questions = $test->getQuestions()->toArray();
-       return new RedirectResponse($this->generateUrl('question.pass', ['id' => (array_shift($questions))->getId()]));
+       return new RedirectResponse($this->generateUrl('childanswer.create', ['id' => (array_shift($questions))->getId()]));
     }
 
     /**
@@ -141,7 +141,7 @@ class TestController extends AbstractController
 
             $this->addFlash('success', 'Тест успешно обновлен.');
 
-            return new RedirectResponse($this->generateUrl('page.profile'));
+            return new RedirectResponse($this->generateUrl('page.home'));
         }
 
         return $this->render('forms/test/test.html.twig', [

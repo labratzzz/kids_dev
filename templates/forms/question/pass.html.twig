@@ -8,6 +8,40 @@
 {% endblock %}
 
 {% block form %}
-    Прохождение теста
-{#    {{ form(form) }}#}
+    {{ form_errors(form) }}
+    <div class="container mb-3">
+        Вопрос: {{ question.line }}
+    </div>
+    <div class="container text-center mb-3">
+        <img class="img-fill" height="400" src="{{ asset(question.image) }}" alt="">
+    </div>
+    {{ form_start(form) }}
+
+    <div class="container">
+        {% if answers is defined and answers is not empty %}
+            {% for answer in answers %}
+                <div class="row my-3">
+                    <div class="col-md-4">
+                        <img class="img-fill" height="200" src="{{ asset(answer.image) }}" alt="">
+                    </div>
+                    <div class="col-md-8">
+                        <p>
+                            {{ answer.line }}
+                        </p>
+                        {% if loop.index == 1 %}
+                            {{ form_row(form.var_1) }}
+                        {% elseif loop.index == 2 %}
+                            {{ form_row(form.var_2) }}
+                        {% elseif loop.index == 3 %}
+                            {{ form_row(form.var_3) }}
+                        {% elseif loop.index == 4 %}
+                            {{ form_row(form.var_4) }}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    {{ form_row(form.submit) }}
+    {{ form_end(form, {'render_rest': false}) }}
 {% endblock %}

@@ -49,22 +49,6 @@ class QuestionController extends AbstractController
     }
 
     /**
-     * @param Question $question
-     * @param Request $request
-     * @return Response|null
-     * @Route("/pass/{id}", name="pass")
-     */
-    public function pass(Question $question, Request $request)
-    {
-        $questions = $question->getTest()->getQuestions()->toArray();
-        return $this->render('forms/question/pass.html.twig', [
-//            'form' => $form->createView(),
-            'image' => 'img/question.svg',
-            'title' => 'Создание вопроса'
-        ]);
-    }
-
-    /**
      * @param Test $test
      * @param Request $request
      * @return Response|null
