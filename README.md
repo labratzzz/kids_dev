@@ -1,6 +1,6 @@
 # kids_development
 
-This is my project for for a paticular student that had to write application for preschool children development. 
+This is my project for a paticular student that had to write application for preschool children development. 
 So I offered him to make a web-application on techonologies that I knew and wanted to do some more things with them.
 
 - - -
