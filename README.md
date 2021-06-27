@@ -1,7 +1,10 @@
 # kids_development
 
 This is my project for a paticular student that had to write application for preschool children development. 
-So I offered him to make a web-application on techonologies that I knew and wanted to do some more things with them.
+So I offered him to make a web-application on technologies that I knew and wanted to do some more things with them.
+
+I don't think that I will continue to work on this project.
+Some features are incomplete, the project has some security and design issues, but it doesn't have an end goal, so it is senseless to work on it.
 
 - - -
 
