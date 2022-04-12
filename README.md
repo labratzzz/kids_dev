@@ -1,4 +1,4 @@
-# kids_development
+# kids_dev
 
 This is my project for a particular student that had to write application for preschool children development. 
 So I offered him to make a web-application on technologies that I knew and wanted to do some more things with them.
